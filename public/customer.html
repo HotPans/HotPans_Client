@@ -1,0 +1,26 @@
+<div align="center">
+<table width="80%" border="0">
+<tr>
+<td width="40%" align="right" valign="top"><br><img src="./images/yakitate.jpg"></td>
+<td width="40%">
+<h2>貴方のスマホに焼き立て情報をお届け！</h2>
+<div>
+焼き立てパンを食べたい！<br>
+焼き上がりに合わせて買いに行こう！
+</div>
+</td>
+</tr>
+</table>
+
+<hr width="50%"><br>
+
+<span>
+<div>現在、<strong>焼き立てパンお知らせシステム HotPans</strong>は開発中です。</div>
+<div>興味がある方はメールアドレスを登録いただくと、システム開始時にご案内を送付させていただきます。</div>
+</span>
+<br>
+<form ng-controller="RegistMailAddressController">
+メールアドレス： <input type="email" ng-model="customer.mailAddress" name="mailAddress" required />
+<button ng-click="registCustomerMailAddress()">登録</button>
+</form>
+</div>

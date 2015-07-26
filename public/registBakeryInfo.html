@@ -1,0 +1,41 @@
+
+<form name="registBakeryForm" ng-controller="RegistBakeryInfoController">
+<div align="center">お店の情報を入力してください。</div><br>
+
+<table align="center">
+<tr>
+<th align="right" nowrap>お店の名前　</th>
+<td><input type="text" ng-model="bakery.name" name="name" required /></td>
+</tr>
+<tr>
+<th align="right" nowrap>メールアドレス　</th>
+<td><input type="email" ng-model="bakery.mailAddress" name="mailAddress" required /></td>
+</tr>
+<tr>
+<th align="right" nowrap>住所　</th>
+<td><input type="text" ng-model="bakery.address" name="address" required /></td>
+</tr>
+<tr>
+<th align="right" nowrap>電話番号１　</th>
+<td><input type="tel" ng-model="bakery.phoneNumber1" name="phoneNumber1" required /></td>
+</tr>
+<tr>
+<th align="right" nowrap>電話番号２　</th>
+<td><input type="tel" ng-model="bakery.phoneNumber2" name="phoneNumber2" /></td>
+</tr>
+<tr>
+<th align="right" nowrap>紹介文　</th>
+<td><input type="text" ng-model="bakery.introduction" name="introduction" required /></td>
+</tr>
+<tr>
+<th align="right" nowrap>画像　</th>
+<td><input type="file" name="image" file-model="imageFile" /><br>
+<img ng-if="imageFileSrc" ng-src="{{imageFileSrc}}" /></td>
+</tr>
+</table>
+{{imageFileSrc}}
+<br>
+<div align="center">
+<button ng-disabled="!registBakeryForm.$valid" ng-click="confirmBakeryInfo()">登録</button>
+</div>
+</form>

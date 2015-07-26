@@ -1,0 +1,55 @@
+<div align="center">
+<strong>入力情報の確認</strong>
+
+<table border="1">
+  <tr>
+    <th bgcolor="yellow">#</th>
+    <th bgcolor="yellow">項目</th>
+    <th bgcolor="yellow" width="200">値</th>
+  </tr>
+  <tr>
+    <th>1</th>
+    <th  nowrap>お店の名前</th>
+    <td>{{bakery.name}}</td>
+  </tr>
+  <tr>
+    <th>2</th>
+    <th  nowrap>メールアドレス</th>
+    <td>{{bakery.mailAddress}}</td>
+  </tr>
+  <tr>
+    <th>3</th>
+    <th  nowrap>住所</th>
+    <td>{{bakery.address}}</td>
+  </tr>
+  <tr>
+    <th>4</th>
+    <th  nowrap>電話番号１</th>
+    <td>{{bakery.phoneNumber1}}</td>
+  </tr>
+  <tr>
+    <th>5</th>
+    <th  nowrap>電話番号２</th>
+    <td>{{bakery.phoneNumber2}}</td>
+  </tr>
+  <tr>
+    <th>6</th>
+    <th  nowrap>紹介文</th>
+    <td>{{bakery.introduction}}</td>
+  </tr>
+  <tr>
+    <th>7</th>
+    <th  nowrap>画像</th>
+    <td><img ng-if="imageFileSrc" ng-src="{{imageFileSrc}}"/></td>
+  </tr>
+</table><br>
+上記で登録します。よろしいですか？<br>
+<!-- {{bakery.introduction}} -->
+<!-- <form name="registedBakeryForm" ng-controller="RegistedBakeryInfoController" > -->
+<!-- <form name="registedBakeryForm"> -->
+<button ng-click="registBakery(bakery)">登録</button>
+<!-- <button onclick="location.href='#/'">戻る</button> -->
+<button ng-click="back(bakery)">戻る</button>
+<!-- </form> -->
+<!-- </form> -->
+</div>

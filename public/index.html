@@ -1,0 +1,40 @@
+<!doctype html>
+<html ng-app="HotPans">
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<script src="components/loader.js"></script>
+<link rel="stylesheet" href="components/loader.css">
+<link rel="stylesheet" href="css/style.css">
+
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+
+<title>HotPans</title>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js">
+</script>
+<script
+  src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-route.min.js">
+</script>
+<script src="hotpans.js"></script>
+</head>
+
+<body>
+<div align="center">
+<h1>焼き立てパンお知らせシステム HotPans</h1>
+～　美味しい焼き立てのパンを売りたい／食べたい貴方に　～
+<hr>
+<button onclick="location.href='#/start'">Topへ</button>
+<button onclick="location.href='#/allMailAddress'">管理者用</button>
+<hr>
+</div>
+<div ng-view></div>
+
+<hr>
+<div align="center">
+copyright xxx
+</div>
+</body>
+</html>

@@ -1,0 +1,2 @@
+# HotPans_Client
+AngularJSを使ったHotPansクライアントアプリケーションです。
