@@ -4,6 +4,13 @@ var gBakery = {};
 var gBread = {};
 var gImageFileSrc;
 
+function initVariable(){
+	mailAddress = "";
+	gBakery = {};
+	gBread = {};
+	gImageFileSrc = undefined;
+}
+
 function hotpansRouteConfig($routeProvider){
 	$routeProvider.
 	when("/",{
@@ -61,8 +68,7 @@ function hotpansRouteConfig($routeProvider){
 hotpansServices.config(hotpansRouteConfig);
 
 function StartController($scope) {
-	gBakery = {};
-	gBread = {};
+	initVariable();
 }
 
 //function BakeryController($scope) {
@@ -123,11 +129,7 @@ function ConfirmBakeryInfoController($scope, $http, $location) {
 		}).success(function(data) {
 			//成功
 			console.log("★成功");
-			//mailAddress = bakery.mailAddress;
-			//gBakery = bakery
-			gBakery = {}
-			//$scope.bakery = bakery;
-			//location.reload();
+			initVariable();
 			$location.path("/registedBakeryInfo");
 			//templateUrl: "registed.html"
 		}).error(function(data) {
@@ -149,7 +151,7 @@ function RegistBakeryInfoController($scope) {
 }
 
 function ShowRegistInfoController($scope, $http) {
-	gBakery = {};	// 初期化
+	initVariable();	// 初期化
 	$http.get('http://localhost:8080/api/bakerys').
 	//$http.get('https://makopi23-hotpans-test.herokuapp.com/api/bakerys').
 	success(function(data1, status, headers, config) {
@@ -238,12 +240,6 @@ hotpansServices.controller("InputBakeryInfoController", function ($scope, $http,
 	var bakery = {};
 
 	$scope.confirmBakeryInfo = function(){
-//		bakery.name = $scope.bakery.name;
-//		bakery.mailAddress = $scope.bakery.mailAddress;
-//		bakery.address = $scope.bakery.address;
-//		bakery.phoneNumber1 = $scope.bakery.phoneNumber1;
-//		bakery.phoneNumber2 = $scope.bakery.phoneNumber2;
-//		bakery.introduction = $scope.bakery.introduction;
 		gBakery = $scope.bakery
 		console.log("★" + gBakery.name);
 		$location.path("/confirmBakeryInfo");
@@ -349,28 +345,9 @@ function ConfirmBreadInfoController($scope, $http, $location) {
 		}).success(function(data) {
 			//成功
 			console.log("★成功");
-			gBread = {}
+			initVariable();
 			$location.path("/registedBreadInfo");
 
-
-
-//			$http({
-//				method : 'POST',
-//				url : 'http://localhost:8080/api/bakerybreadlist/1/1',
-//				//url : 'https://makopi23-hotpans-test.herokuapp.com/api/breads',
-//				data : fd,
-//				headers : {'Content-type':undefined},
-//				transformRequest: null
-//			}).success(function(data) {
-//				//成功
-//				console.log("★成功");
-//				gBread = {}
-//				$location.path("/registedBreadInfo");
-//			}).error(function(data) {
-//				//失敗
-//				console.log("★失敗");
-//				alert("Error!! Please try again later.");
-//			});
 
 		}).error(function(data) {
 			//失敗
