@@ -1,0 +1,97 @@
+<!-- <div align="center"> -->
+<div  class="container">
+
+<h2>パン屋さんの登録済み情報一覧</h2>
+
+<!-- <table width="40%" border="1"> -->
+<table class="table table-bordered table-hover table-striped">
+<tr class="info">
+  <th>#</th>
+  <th>属性</th>
+  <th>値</th>
+</tr>
+<tr ng-repeat-start="bakery in bakerys">
+  <th align="center" rowspan="7">{{$index + 1}}</td>
+  <td>名前</td>
+  <td>{{bakery.name}}</td>
+</tr>
+<tr>
+  <td>メールアドレス</td>
+  <td>{{bakery.mailAddress}}</td>
+</tr>
+<tr>
+  <td>住所</td>
+  <td>{{bakery.address}}</td>
+</tr>
+<tr>
+  <td>電話番号1</td>
+  <td>{{bakery.phoneNumber1}}</td>
+</tr>
+<tr>
+  <td>電話番号2</td>
+  <td>{{bakery.phoneNumber2}}</td>
+</tr>
+<tr>
+  <td>説明</td>
+  <td>{{bakery.introduction}}</td>
+</tr>
+<tr ng-repeat-end >
+  <td>画像</td>
+  <td><img data-ng-src="{{bakery.imageEncoding}}{{bakery.image}}" /></td>
+</tr>
+<!-- <tr ng-repeat-end> -->
+<!--   <td colspan="3" bgcolor="black" height="100"></td> -->
+<!-- </tr> -->
+</table>
+
+<br>
+<hr width="50%">
+<h2>パン購入ユーザの登録済みメール一覧</h2>
+<!-- <table width="40%" border="1"> -->
+<table class="table table-bordered table-hover table-striped">
+<tr class="info">
+<th>#</th>
+<th>メールアドレス</th>
+</tr>
+<tr ng-repeat="customer in customers">
+<td>{{$index + 1}}</td>
+<td>{{customer.mailAddress}}</td>
+</tr>
+</table>
+
+<br>
+<hr width="50%">
+<h2>登録済みパン一覧</h2>
+<!-- <table width="40%" border="1"> -->
+<table class="table table-bordered table-hover table-striped">
+<tr class="info">
+  <th>#</th>
+  <th>属性</th>
+  <th>値</th>
+</tr>
+<tr ng-repeat-start="bread in breads">
+  <th align="center" rowspan="5">{{$index + 1}}</td>
+  <td>名前</td>
+  <td>{{bread.name}}</td>
+</tr>
+<tr>
+  <td>価格</td>
+  <td>{{bread.price}}</td>
+</tr>
+<tr>
+  <td>説明</td>
+  <td>{{bread.introduction}}</td>
+</tr>
+<tr>
+  <td>パン屋ID</td>
+  <td>{{bread.bakeryId}}</td>
+</tr>
+<tr ng-repeat-end style="border-bottom-width : 100pt;">
+  <td>画像</td>
+  <td><img data-ng-src="{{bread.imageEncoding}}{{bread.image}}" /></td>
+</tr>
+<!-- <tr ng-repeat-end> -->
+<!--   <td colspan="3" bgcolor="black"></td> -->
+<!-- </tr> -->
+</table>
+</div>
