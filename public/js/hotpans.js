@@ -114,8 +114,8 @@ function ConfirmBakeryInfoController($scope, $http, $location) {
 
 		$http({
 			method : 'POST',
-			//url : 'http://localhost:8080/api/bakerys',
-			url : 'https://makopi23-hotpans-test.herokuapp.com/api/bakerys',
+			url : 'http://localhost:8080/api/bakerys',
+			//url : 'https://makopi23-hotpans-test.herokuapp.com/api/bakerys',
 //			data : bakery
 			data : fd,
 			headers : {'Content-type':undefined},
@@ -150,21 +150,21 @@ function RegistBakeryInfoController($scope) {
 
 function ShowRegistInfoController($scope, $http) {
 	gBakery = {};	// 初期化
-	//$http.get('http://localhost:8080/api/bakerys').
-	$http.get('https://makopi23-hotpans-test.herokuapp.com/api/bakerys').
+	$http.get('http://localhost:8080/api/bakerys').
+	//$http.get('https://makopi23-hotpans-test.herokuapp.com/api/bakerys').
 	success(function(data1, status, headers, config) {
 		$scope.bakerys = data1;
 
 	});
 
-	//$http.get('http://localhost:8080/api/customers').
-	$http.get('https://makopi23-hotpans-test.herokuapp.com/api/customers').
+	$http.get('http://localhost:8080/api/customers').
+	//$http.get('https://makopi23-hotpans-test.herokuapp.com/api/customers').
 	success(function(data, status, headers, config) {
 		$scope.customers = data;
 	});
 
-	//$http.get('http://localhost:8080/api/breads').
-	$http.get('https://makopi23-hotpans-test.herokuapp.com/api/breads').
+	$http.get('http://localhost:8080/api/breads').
+	//$http.get('https://makopi23-hotpans-test.herokuapp.com/api/breads').
 	success(function(data, status, headers, config) {
 		$scope.breads = data;
 	});
@@ -192,8 +192,8 @@ hotpansServices.controller("RegistMailAddressController", function ($scope, $htt
 
 		$http({
 			method : 'POST',
-			//url : 'http://localhost:8080/api/bakerys',
-			url : 'https://makopi23-hotpans-test.herokuapp.com/api/bakerys',
+			url : 'http://localhost:8080/api/bakerys',
+			//url : 'https://makopi23-hotpans-test.herokuapp.com/api/bakerys',
 			//data : bakery
 			data : fd,
 			headers : {'Content-type':undefined},
@@ -217,8 +217,8 @@ hotpansServices.controller("RegistMailAddressController", function ($scope, $htt
 		console.log(customer.mailAddress);
 		$http({
 			method : 'POST',
-			//url : 'http://localhost:8080/api/customers',
-			url : 'https://makopi23-hotpans-test.herokuapp.com/api/customers',
+			url : 'http://localhost:8080/api/customers',
+			//url : 'https://makopi23-hotpans-test.herokuapp.com/api/customers',
 			data : customer
 		}).success(function(data) {
 			//成功
@@ -341,8 +341,8 @@ function ConfirmBreadInfoController($scope, $http, $location) {
 
 		$http({
 			method : 'POST',
-			//url : 'http://localhost:8080/api/breads',
-			url : 'https://makopi23-hotpans-test.herokuapp.com/api/breads',
+			url : 'http://localhost:8080/api/breads',
+			//url : 'https://makopi23-hotpans-test.herokuapp.com/api/breads',
 			data : fd,
 			headers : {'Content-type':undefined},
 			transformRequest: null
