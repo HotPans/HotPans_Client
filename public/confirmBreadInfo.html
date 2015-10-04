@@ -1,8 +1,8 @@
 <!-- <div align="center"> -->
 <div  class="container">
-<div align="center">
-<font color="red">【注意】 パン屋のログイン機能が未実装のため、#1「パン屋まこぴ」のパンとして登録します。</font>
-</div>
+<!-- <div align="center"> -->
+<!-- <font color="red">【注意】 パン屋のログイン機能が未実装のため、#1「パン屋まこぴ」のパンとして登録します。</font> -->
+<!-- </div> -->
 <br>
 <strong>入力情報の確認</strong>
 
@@ -15,29 +15,39 @@
   </tr>
   <tr>
     <th>1</th>
+    <th  nowrap>パン屋のID</th>
+    <td>{{bread.bakeryId}}</td>
+  </tr>
+<!--   <tr> -->
+<!--     <th>2</th> -->
+<!--     <th  nowrap>パン屋の名前</th> -->
+<!--     <td>{{bread.bakeryName}}</td> -->
+<!--   </tr> -->
+  <tr>
+    <th>2</th>
     <th  nowrap>パンの名前</th>
     <td>{{bread.name}}</td>
   </tr>
   <tr>
-    <th>2</th>
+    <th>3</th>
     <th  nowrap>価格</th>
     <td>{{bread.price}}</td>
   </tr>
   <tr>
-    <th>3</th>
+    <th>4</th>
     <th  nowrap>紹介文</th>
     <td>{{bread.introduction}}</td>
   </tr>
   <tr>
-    <th>4</th>
+    <th>5</th>
     <th  nowrap>画像</th>
     <td><img ng-if="imageFileSrc" ng-src="{{imageFileSrc}}"/></td>
   </tr>
-  <tr>
-    <th>5</th>
-    <th  nowrap>パン屋のID</th>
-    <td>{{bread.bakeryId}}</td>
-  </tr>
+<!--   <tr> -->
+<!--     <th>7</th> -->
+<!--     <th  nowrap>パン屋のID</th> -->
+<!--     <td>{{bread.bakeryId}}</td> -->
+<!--   </tr> -->
 </table><br>
 上記で登録します。よろしいですか？<br>
 <button ng-click="registBread(bread)">登録</button>

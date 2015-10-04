@@ -1,14 +1,22 @@
 <div  class="container">
 <form name="registBreadForm" ng-controller="InputBreadInfoController">
 
-<div align="center">
-<font color="red">【注意】 パン屋のログイン機能が未実装のため、#1「パン屋まこぴ」のパンとして登録します。</font>
-</div>
-<br>
+<!-- <div align="center"> -->
+<!-- <font color="red">【注意】 パン屋のログイン機能が未実装のため、#1「パン屋まこぴ」のパンとして登録します。</font> -->
+<!-- </div> -->
+<!-- <br> -->
 
 <div align="center">パンの情報を入力してください。</div><br>
 
 <table align="center" class="table table-hover table-striped">
+<tr>
+<th align="right" nowrap>パン屋のID　</th>
+<td><input type="label" ng-model="bread.bakeryId" name="bakeryId" required readonly /></td>
+</tr>
+<!-- <tr> -->
+<!-- <th align="right" nowrap>パン屋の名前　</th> -->
+<!-- <td><input type="label" ng-model="bread.bakeryName" name="bakeryName" required readonly /></td> -->
+<!-- </tr> -->
 <tr>
 <th align="right" nowrap>パンの名前　</th>
 <td><input type="text" ng-model="bread.name" name="name" required /></td>
@@ -28,7 +36,7 @@
 <img ng-if="imageFileSrc" ng-src="{{imageFileSrc}}" /></td>
 </tr>
 </table>
-<input type="hidden" ng-model="bread.bakeryId" name="bakeryId" value="1" />
+<!-- <input type="hidden" ng-model="bread.bakeryId" name="bakeryId" value="1" /> -->
 {{imageFileSrc}}
 <br>
 <div align="center">

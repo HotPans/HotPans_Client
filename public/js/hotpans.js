@@ -17,15 +17,23 @@ function hotpansRouteConfig($routeProvider){
 		controller: StartController,
 		templateUrl: "menu.html"
 	}).
+	when("/login",{
+		controller: LoginController,
+		templateUrl: "login.html"
+	}).
+	when("/logout",{
+		controller: LogoutController,
+		templateUrl: "logout.html"
+	}).
 	when("/landingPage",{
 		templateUrl: "landingPage.html"
 	}).
 	when("/bakery",{
-		//controller: BakeryController,
+		controller: BakeryController,
 		templateUrl: "bakery.html"
 	}).
 	when("/customer",{
-		//controller: CustomerController,
+		controller: CustomerController,
 		templateUrl: "customer.html"
 	}).
 	when("/registedMailAddress",{
@@ -45,7 +53,7 @@ function hotpansRouteConfig($routeProvider){
 		templateUrl: "confirmBakeryInfo.html"
 	}).
 	when("/registedBakeryInfo",{
-		//controller: RegistedBreadInfoController,
+		controller: RegistedBakeryInfoController,
 		templateUrl: "registedBakeryInfo.html"
 	}).
 	when("/registBreadInfo",{
@@ -57,7 +65,7 @@ function hotpansRouteConfig($routeProvider){
 		templateUrl: "confirmBreadInfo.html"
 	}).
 	when("/registedBreadInfo",{
-		//controller: RegistedBreadInfoController,
+		controller: RegistedBreadInfoController,
 		templateUrl: "registedBreadInfo.html"
 	}).
 	otherwise({
@@ -67,27 +75,51 @@ function hotpansRouteConfig($routeProvider){
 
 hotpansServices.config(hotpansRouteConfig);
 
-function StartController($scope) {
+function StartController($scope, $location) {
+	checkLoginStatus($location);
 	initVariable();
 }
 
-//function BakeryController($scope) {
+function LoginController($scope, $location) {
+	initVariable();
+}
 
-//}
+function LogoutController($scope, $location) {
+	initVariable();
+	document.cookie = 'isLoginedHotpans=NG';
+	document.cookie = 'bakeryId=0';
+	//document.cookie = 'bakeryName=nothing';
+}
 
-//function CustomerController($scope) {
+function RegistedBreadInfoController($scope, $location) {
+	initVariable();
+	//document.cookie = 'isLoginedHotpans=NG';
+}
 
-//}
+function BakeryController($scope, $location) {
+	checkLoginStatus($location);
+}
 
-function RegistedMailAddressController($scope) {
+function CustomerController($scope, $location) {
+	checkLoginStatus($location);
+}
+
+function RegistedMailAddressController($scope, $location) {
+	checkLoginStatus($location);
 	$scope.mailAddress = mailAddress;
 }
+
+function RegistedBakeryInfoController($scope, $location) {
+	//checkLoginStatus($location);
+}
+
 
 //hotpansServices.controller("ConfirmBakeryInfoController", function ($scope) {
 //	$scope.bakery = gBakery;
 //});
 
 function ConfirmBakeryInfoController($scope, $http, $location) {
+	//checkLoginStatus($location);
 	$scope.bakery = gBakery;
 	$scope.imageFileSrc = gImageFileSrc;
 
@@ -104,6 +136,8 @@ function ConfirmBakeryInfoController($scope, $http, $location) {
 		fd.append('phoneNumber1', bakery.phoneNumber1);
 		fd.append('phoneNumber2', bakery.phoneNumber2);
 		fd.append('introduction', bakery.introduction);
+		fd.append('loginId', bakery.loginId);
+		fd.append('loginPassword', bakery.loginPassword);
 		if(bakery.image === undefined){
 			console.log("★undefined");
 			// No Printingの画像
@@ -146,11 +180,13 @@ function ConfirmBakeryInfoController($scope, $http, $location) {
 
 }
 
-function RegistBakeryInfoController($scope) {
+function RegistBakeryInfoController($scope, $location) {
+	//checkLoginStatus($location);
 	$scope.bakery = gBakery;
 }
 
-function ShowRegistInfoController($scope, $http) {
+function ShowRegistInfoController($scope, $http, $location) {
+	checkLoginStatus($location);
 	initVariable();	// 初期化
 	$http.get('http://localhost:8080/api/bakerys').
 	//$http.get('https://makopi23-hotpans-test.herokuapp.com/api/bakerys').
@@ -276,18 +312,32 @@ hotpansServices.directive("fileModel", ["$parse", function ($parse) {
     };
 }]);
 
-function RegistBreadInfoController($scope) {
+function RegistBreadInfoController($scope, $location) {
+	checkLoginStatus($location);
 	$scope.bread = gBread;
+
+	$scope.bread.bakeryId = getCookie("bakeryId");
+	$scope.bread.bakeryName = getCookie("bakeryName");
+
+//	$scope.bakeryId = getCookie("bakeryId");
+//	$scope.bakeryName = getCookie("bakeryName");
+//
+//	console.log("★$scope.bakeryId=" + $scope.bakeryId);
+//	console.log("★$scope.bakeryName=" + $scope.bakeryName);
 }
 
 hotpansServices.controller("InputBreadInfoController", function ($scope, $http, $location){
+	checkLoginStatus($location);
 	var bread = {};
+
+
+
 
 	$scope.confirmBreadInfo = function(){
 		gBread = $scope.bread
 
 		// パン屋のログイン機能が未実装のため、#1「パン屋まこぴ」のパンとして登録します。
-		gBread.bakeryId = "1";
+		//gBread.bakeryId = "1";
 
 		console.log("★bread.name=" + gBread.name);
 		console.log("★bread.bakeryId=" + gBread.bakeryId);
@@ -312,6 +362,7 @@ hotpansServices.controller("InputBreadInfoController", function ($scope, $http, 
 });
 
 function ConfirmBreadInfoController($scope, $http, $location) {
+	checkLoginStatus($location);
 	$scope.bread = gBread;
 	$scope.imageFileSrc = gImageFileSrc;
 
@@ -326,7 +377,8 @@ function ConfirmBreadInfoController($scope, $http, $location) {
 		fd.append('name', bread.name);
 		fd.append('price', bread.price);
 		fd.append('introduction', bread.introduction);
-		fd.append('bakeryId', "1");
+		//fd.append('bakeryId', "1");
+		fd.append('bakeryId', bread.bakeryId);
 		if(bread.image === undefined){
 			console.log("★undefined");
 			// No Printingの画像
@@ -361,4 +413,107 @@ function ConfirmBreadInfoController($scope, $http, $location) {
 		$location.path("/registBreadInfo");
 	}
 
+}
+
+hotpansServices.controller("InputLoginInfoController", function ($scope, $http, $location){
+
+	$scope.login = function(){
+		console.log("★id: " + $scope.login.id);
+		console.log("★password: " + $scope.login.password);
+		//$location.path("/menu");
+
+//		var fd = new FormData();
+//		fd.append('id', $scope.login.id);
+//		fd.append('password', $scope.login.password);
+
+		$http.get('http://localhost:8080/api/bakerys')
+		//url : 'https://makopi23-hotpans-test.herokuapp.com/api/bakerys',
+		.success(function(data) {
+			//成功
+			console.log("★成功");
+
+			console.log(data);
+
+			console.log("★" + data[0].loginPassword);
+
+			var path = "/login";
+			for(i = 0; i < data.length; i++){
+				console.log("id:" + data[i].login_id);
+				console.log("password:" + data[i].login_password);
+
+				if(data[i].loginId == $scope.login.id
+						&& data[i].loginPassword == $scope.login.password){
+					console.log("★一致");
+
+//					document.cookie = 'hotpans_id=' +  $scope.login.id;
+//					document.cookie = 'hotpans_password' + $scope.login.password;
+//
+//					console.log("cookie:id=" + getCookie("hotpans_id"));
+
+					document.cookie = 'isLoginedHotpans=OK';
+					console.log("★id=" + data[i].id);
+					//console.log("★bakery.name=" + data[i].name);
+					document.cookie = 'bakeryId=' + data[i].id;
+					//document.cookie = 'bakeryName=' + data[i].name;
+
+					//console.log("★ログイン状態：" + isLogined());
+
+					path = "/menu";
+				}
+			}
+			console.log("★ログイン状態：" + isLogined());
+			initVariable();
+			$scope.login.message = "IDまたはパスワードが違います";
+			$location.path(path);
+
+
+			//initVariable();
+			//$location.path("/menu");
+		}).error(function(data) {
+			//失敗
+			console.log("★失敗");
+			alert("Error!! Please try again later.");
+		});
+	}
+});
+
+function getCookie( name )
+{
+    var result = null;
+
+    var cookieName = name + '=';
+    var allcookies = document.cookie;
+
+    var position = allcookies.indexOf( cookieName );
+    if( position != -1 )
+    {
+        var startIndex = position + cookieName.length;
+
+        var endIndex = allcookies.indexOf( ';', startIndex );
+        if( endIndex == -1 )
+        {
+            endIndex = allcookies.length;
+        }
+
+        result = decodeURIComponent(
+            allcookies.substring( startIndex, endIndex ) );
+    }
+
+    return result;
+}
+
+function isLogined(){
+	console.log("★cookie:" + getCookie("isLoginedHotpans"));
+	if(getCookie("isLoginedHotpans") == "OK"){
+		return true;
+	}else{
+		return false;
+	}
+}
+
+function checkLoginStatus($location){
+	if(isLogined() == false){
+		console.log("★false");
+		$location.path("/login");
+	}
 }

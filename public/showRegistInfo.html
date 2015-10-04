@@ -11,7 +11,7 @@
   <th>値</th>
 </tr>
 <tr ng-repeat-start="bakery in bakerys">
-  <th align="center" rowspan="7">{{$index + 1}}</td>
+  <th align="center" rowspan="9">{{$index + 1}}</td>
   <td>名前</td>
   <td>{{bakery.name}}</td>
 </tr>
@@ -30,6 +30,14 @@
 <tr>
   <td>電話番号2</td>
   <td>{{bakery.phoneNumber2}}</td>
+</tr>
+<tr>
+  <td>ログインID</td>
+  <td>{{bakery.loginId}}</td>
+</tr>
+<tr>
+  <td>ログインパスワード</td>
+  <td>{{bakery.loginPassword}}</td>
 </tr>
 <tr>
   <td>説明</td>

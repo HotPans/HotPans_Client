@@ -1,0 +1,39 @@
+<div  class="container">
+<form name="loginForm" ng-controller="InputLoginInfoController">
+
+<div align="center"><h2 >パン屋さんのログイン画面</h2></div>
+<div align="center">パン屋さんの登録は<a href="#/registBakeryInfo">こちら</a>から。</div><br>
+<table align="center" class="table table-hover table-striped">
+<tr>
+<th align="right" nowrap>ID　</th>
+<td><input type="text" ng-model="login.id" name="id" required /></td>
+</tr>
+<tr>
+<th align="right" nowrap>パスワード　</th>
+<td><input type="text" ng-model="login.password" name="password" required /></td>
+</tr>
+</table>
+
+<div align="center">
+<button ng-disabled="!loginForm.$valid" ng-click="login()">認証</button>
+</div>
+<div align="center"><font color="red">{{login.message}}</font></div>
+</form>
+
+<hr />
+<div align="center"><font color="blue">なお、テスト用ユーザとして以下を用意しています。</font></div>
+<table align="center" class="table table-hover table-striped table-bordered">
+<tr>
+<th>ID</th>
+<th>パスワード</th>
+</tr>
+<tr>
+<td>user1</td>
+<td>password1</td>
+</tr>
+<tr>
+<td>user2</td>
+<td>password2</td>
+</tr>
+</table>
+</div>
