@@ -1,5 +1,5 @@
-var hotpansServices = angular.module("HotPans", ["ngRoute"]);
-var mailAddress = "abc";
+var hotpansServices = angular.module("HotPans", ["ui.router"]);
+var gMailAddress = "";
 var gBakery = {};
 var gBread = {};
 var gImageFileSrc;
@@ -12,69 +12,85 @@ function initVariable(){
 	gImageFileSrc = undefined;
 }
 
-function hotpansRouteConfig($routeProvider){
-	$routeProvider.
-	when("/",{
+function hotpansRouteConfig($stateProvider){
+	$stateProvider.
+	state('top', {
+		url: "/",
 		controller: StartController,
 		templateUrl: "menu.html"
 	}).
-	when("/login",{
+	state('login', {
+		url: "/login",
 		controller: LoginController,
 		templateUrl: "login.html"
 	}).
-	when("/logout",{
+	state('logout', {
+		url: "/logout",
 		controller: LogoutController,
 		templateUrl: "logout.html"
 	}).
-	when("/landingPage",{
+	state('landingPage', {
+		url: "/landingPage",
 		templateUrl: "landingPage.html"
 	}).
-	when("/bakery",{
+	state('bakery', {
+		url: "/bakery",
 		controller: BakeryController,
 		templateUrl: "bakery.html"
 	}).
-	when("/customer",{
+	state('customer', {
+		url: "/customer",
 		controller: CustomerController,
 		templateUrl: "customer.html"
 	}).
-	when("/registedMailAddress",{
+	state('registedMailAddress', {
+		url: "/registedMailAddress",
 		controller: RegistedMailAddressController,
 		templateUrl: "registedMailAddress.html"
 	}).
-	when("/showRegistInfo",{
+	state('showRegistInfo', {
+		url: "/showRegistInfo",
 		controller: ShowRegistInfoController,
 		templateUrl: "showRegistInfo.html"
 	}).
-	when("/registBakeryInfo",{
+	state('registBakeryInfo', {
+		url: "/registBakeryInfo",
 		controller: RegistBakeryInfoController,
 		templateUrl: "registBakeryInfo.html"
 	}).
-	when("/confirmBakeryInfo",{
+	state('confirmBakeryInfo', {
+		url: "/confirmBakeryInfo",
 		controller: ConfirmBakeryInfoController,
 		templateUrl: "confirmBakeryInfo.html"
 	}).
-	when("/registedBakeryInfo",{
+	state('registedBakeryInfo', {
+		url: "/registedBakeryInfo",
 		controller: RegistedBakeryInfoController,
 		templateUrl: "registedBakeryInfo.html"
 	}).
-	when("/registBreadInfo",{
+	state('registBreadInfo', {
+		url: "/registBreadInfo",
 		controller: RegistBreadInfoController,
 		templateUrl: "registBreadInfo.html"
 	}).
-	when("/confirmBreadInfo",{
+	state('confirmBreadInfo', {
+		url: "/confirmBreadInfo",
 		controller: ConfirmBreadInfoController,
 		templateUrl: "confirmBreadInfo.html"
 	}).
-	when("/registedBreadInfo",{
+	state('registedBreadInfo', {
+		url: "/registedBreadInfo",
 		controller: RegistedBreadInfoController,
 		templateUrl: "registedBreadInfo.html"
-	}).
-	otherwise({
-		redirectTo: "/"
 	});
 }
 
+function defaultRouteConfig($urlRouterProvider){
+	$urlRouterProvider.otherwise('/');
+}
+
 hotpansServices.config(hotpansRouteConfig);
+hotpansServices.config(defaultRouteConfig);
 
 function StartController($scope, $location, $http) {
 	console.log("★StartController");
@@ -172,6 +188,8 @@ function ConfirmBakeryInfoController($scope, $http, $location) {
 
 }
 
+
+
 function RegistBakeryInfoController($scope, $location) {
 	//goLoginPageIfNotLogin($location, $http);
 	$scope.bakery = gBakery;
@@ -266,6 +284,7 @@ hotpansServices.controller("RegistMailAddressController", function ($scope, $htt
 	}
 });
 
+
 hotpansServices.controller("InputBakeryInfoController", function ($scope, $http, $location){
 	var bakery = {};
 
@@ -302,6 +321,9 @@ hotpansServices.controller("InputBakeryInfoController", function ($scope, $http,
         reader.readAsDataURL(imageFile);
     });
 });
+
+
+
 
 hotpansServices.directive("fileModel", ["$parse", function ($parse) {
     return {
@@ -458,6 +480,7 @@ hotpansServices.controller("InputLoginInfoController", function ($scope, $http, 
 });
 
 function goLoginPageIfNotLogin($location, $http){
+	//$location.path("/login");
 	console.log("★goLoginPageIfNotLogin");
 
 	//var loginStatus = false;
@@ -480,6 +503,7 @@ function goLoginPageIfNotLogin($location, $http){
 		// 未ログインの場合、ログイン画面へ
 		if(data == false){
 			$location.path("/login");
+			//$route.reload();
 		}
 
 
@@ -487,7 +511,7 @@ function goLoginPageIfNotLogin($location, $http){
 		//失敗
 		console.log("★ログインステータス取得失敗");
 		console.log(data);
-		alert("ログインステータス取得失敗！");
+		alert("サーバとの通信に失敗しました。ログインステータスが取得できません。");
 	});
 
 }
