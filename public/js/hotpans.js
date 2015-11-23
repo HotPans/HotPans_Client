@@ -78,6 +78,11 @@ function hotpansRouteConfig($stateProvider){
 		controller: RegistCustomerInfoController,
 		templateUrl: "registCustomerInfo.html"
 	}).
+	state('registBreadInfo', {
+		url: "/registBreadInfo",
+		controller: RegistBreadInfoController,
+		templateUrl: "registBreadInfo.html"
+	}).
 	state('confirmBakeryInfo', {
 		url: "/confirmBakeryInfo",
 		controller: ConfirmBakeryInfoController,
@@ -87,6 +92,11 @@ function hotpansRouteConfig($stateProvider){
 		url: "/confirmCustomerInfo",
 		controller: ConfirmCustomerInfoController,
 		templateUrl: "confirmCustomerInfo.html"
+	}).
+	state('confirmBreadInfo', {
+		url: "/confirmBreadInfo",
+		controller: ConfirmBreadInfoController,
+		templateUrl: "confirmBreadInfo.html"
 	}).
 	state('registedBakeryInfo', {
 		url: "/registedBakeryInfo",
@@ -98,30 +108,25 @@ function hotpansRouteConfig($stateProvider){
 		controller: RegistedCustomerInfoController,
 		templateUrl: "registedCustomerInfo.html"
 	}).
-	state('registBreadInfo', {
-		url: "/registBreadInfo",
-		controller: RegistBreadInfoController,
-		templateUrl: "registBreadInfo.html"
-	}).
-	state('confirmBreadInfo', {
-		url: "/confirmBreadInfo",
-		controller: ConfirmBreadInfoController,
-		templateUrl: "confirmBreadInfo.html"
-	}).
 	state('registedBreadInfo', {
 		url: "/registedBreadInfo",
 		controller: RegistedBreadInfoController,
 		templateUrl: "registedBreadInfo.html"
 	}).
-	state('bakeryMenu', {
-		url: "/bakeryMenu",
-		controller: BakeryMenuController,
-		templateUrl: "bakeryMenu.html"
+	state('menuForBakery', {
+		url: "/menuForBakery",
+		controller: MenuForBakeryController,
+		templateUrl: "menuForBakery.html"
 	}).
-	state('customerMenu', {
-		url: "/customerMenu",
-		controller: CustomerMenuController,
-		templateUrl: "customerMenu.html"
+	state('menuForCustomer', {
+		url: "/menuForCustomer",
+		controller: MenuForCustomerController,
+		templateUrl: "menuForCustomer.html"
+	}).
+	state('menuForAdministrator', {
+		url: "/menuForAdministrator",
+		controller: MenuForAdministratorController,
+		templateUrl: "menuForAdministrator.html"
 	});
 
 }
@@ -135,7 +140,7 @@ hotpansServices.config(defaultRouteConfig);
 
 function StartController($scope, $location, $http) {
 	console.log("★StartController");
-	//goStartPageIfNotLogin($location, $http);
+	//goStartPageIfNotBakeryLogin($location, $http);
 	initVariable();
 }
 
@@ -146,6 +151,8 @@ function LoginForBakeryController($scope, $location) {
 function LogoutController($scope, $location) {
 	initVariable();
 	gBakeryLoginInfo = {};
+	gCustomerLoginInfo = {};
+	gAdministratorLoginInfo = {};
 }
 
 function RegistedBreadInfoController($scope, $location) {
@@ -153,28 +160,28 @@ function RegistedBreadInfoController($scope, $location) {
 }
 
 function LandingPageForBakeryController($scope, $location, $http) {
-	//goStartPageIfNotLogin($location, $http);
+	//goStartPageIfNotBakeryLogin($location, $http);
 }
 
 function LandingPageForCustomerController($scope, $location, $http) {
-	//goStartPageIfNotLogin($location, $http);
+	//goStartPageIfNotBakeryLogin($location, $http);
 }
 
 function RegistedMailAddressController($scope, $location, $http) {
-	goStartPageIfNotLogin($location, $http);
+	//goStartPageIfNotBakeryLogin($location, $http);
 	$scope.mailAddress = mailAddress;
 }
 
 function RegistedBakeryInfoController($scope, $location) {
-	//goStartPageIfNotLogin($location, $http);
+	goStartPageIfNotBakeryLogin($location, $http);
 }
 
 function RegistedCustomerInfoController($scope, $location) {
-	//goStartPageIfNotLogin($location, $http);
+	goStartPageIfNotCustomerLogin($location, $http);
 }
 
 function ConfirmBakeryInfoController($scope, $http, $location) {
-	//goStartPageIfNotLogin($location, $http);
+	goStartPageIfNotBakeryLogin($location, $http);
 	$scope.bakery = gBakery;
 	$scope.imageFileSrc = gImageFileSrc;
 
@@ -234,10 +241,8 @@ function ConfirmBakeryInfoController($scope, $http, $location) {
 }
 
 function ConfirmCustomerInfoController($scope, $http, $location) {
-	//goStartPageIfNotLogin($location, $http);
+	goStartPageIfNotCustomerLogin($location, $http);
 	$scope.customer = gCustomer;
-	//$scope.imageFileSrc = gImageFileSrc;
-
 
 	$scope.registCustomer = function(customer){
 		//customer.image = gImageFileSrc;
@@ -247,28 +252,14 @@ function ConfirmCustomerInfoController($scope, $http, $location) {
 		var fd = new FormData();
 		fd.append('name', customer.name);
 		fd.append('mailAddress', customer.mailAddress);
-		//fd.append('address', customer.address);
-		//fd.append('phoneNumber1', customer.phoneNumber1);
-		//fd.append('phoneNumber2', customer.phoneNumber2);
-		//fd.append('introduction', customer.introduction);
 		fd.append('loginId', customer.loginId);
 		fd.append('loginPassword', customer.loginPassword);
-//		if(customer.image === undefined){
-//			console.log("★undefined");
-//			// No Printingの画像
-//			fd.append('image', 'data:image/png;base64,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');
-//		}else{
-//			fd.append('image', customer.image);
-//		}
 
 		$http({
 			method : 'POST',
 			url : 'http://localhost:8080/api/customers',
 			//url : 'https://makopi23-hotpans-test.herokuapp.com/api/customers',
-			//data : fd,
 			data : customer
-			//headers : {'Content-type':undefined},
-			//transformRequest: null
 		}).success(function(data) {
 			// POST成功
 			console.log("★POST成功");
@@ -295,7 +286,7 @@ function ConfirmCustomerInfoController($scope, $http, $location) {
 }
 
 function RegistBakeryInfoController($scope, $location) {
-	//goStartPageIfNotLogin($location, $http);
+	//goStartPageIfNotBakeryLogin($location, $http);
 	$scope.bakery = gBakery;
 }
 
@@ -305,7 +296,7 @@ function RegistCustomerInfoController($scope, $location, $http) {
 }
 
 function ShowRegistInfoController($scope, $http, $location) {
-	//goStartPageIfNotLogin($location, $http)
+	goStartPageIfNotAdministratorLogin($location, $http)
 
 	initVariable();	// 初期化
 	$http.get('http://localhost:8080/api/bakerys').
@@ -327,15 +318,18 @@ function ShowRegistInfoController($scope, $http, $location) {
 		$scope.breads = data;
 	});
 
-
 }
 
-function BakeryMenuController($location, $http) {
-	goStartPageIfNotLogin($location, $http);
+function MenuForBakeryController($location, $http) {
+	goStartPageIfNotBakeryLogin($location, $http);
 }
 
-function CustomerMenuController($location, $http) {
-	goStartPageIfNotLogin($location, $http);
+function MenuForCustomerController($location, $http) {
+	goStartPageIfNotCustomerLogin($location, $http);
+}
+
+function MenuForAdministratorController($location, $http) {
+	goStartPageIfNotAdministratorLogin($location, $http);
 }
 
 hotpansServices.controller("RegistMailAddressController", function ($scope, $http, $location){
@@ -459,22 +453,6 @@ hotpansServices.controller("InputCustomerInfoController", function ($scope, $htt
 		}
 
 	}
-/*
-	$scope.$watch("imageFile", function (imageFile) {
-        $scope.imageFileSrc = undefined;
-        if (!imageFile || !imageFile.type.match("image.*")) {
-            return;
-        }
-        var reader = new FileReader();
-        reader.onload = function () {
-            $scope.$apply(function () {
-                $scope.imageFileSrc = reader.result;
-                gImageFileSrc = reader.result;
-            });
-        };
-        reader.readAsDataURL(imageFile);
-    });
-*/
 });
 
 
@@ -493,15 +471,14 @@ hotpansServices.directive("fileModel", ["$parse", function ($parse) {
 }]);
 
 function RegistBreadInfoController($scope, $location, $http) {
-	goStartPageIfNotLogin($location, $http);
+	goStartPageIfNotBakeryLogin($location, $http);
 	$scope.bread = gBread;
 	$scope.bread.bakeryId = gBakeryLoginInfo.id;
 }
 
 
-
 hotpansServices.controller("InputBreadInfoController", function ($scope, $http, $location){
-	goStartPageIfNotLogin($location, $http);
+	goStartPageIfNotBakeryLogin($location, $http);
 	var bread = {};
 
 	$scope.confirmBreadInfo = function(){
@@ -529,7 +506,7 @@ hotpansServices.controller("InputBreadInfoController", function ($scope, $http, 
 });
 
 function ConfirmBreadInfoController($scope, $http, $location) {
-	goStartPageIfNotLogin($location, $http);
+	goStartPageIfNotBakeryLogin($location, $http);
 	$scope.bread = gBread;
 	$scope.imageFileSrc = gImageFileSrc;
 
@@ -611,12 +588,12 @@ hotpansServices.controller("InputBakeryLoginInfoController", function ($scope, $
 
 			// ログイン成功の場合
 			if(data.tokenForCertification != 'NG'){
-				console.log("★ログイン成功");
+				console.log("★パン屋さんログイン成功");
 				gBakeryLoginInfo.id = data.id;	// ログインIDではなく、主キー（整数）を格納
 				gBakeryLoginInfo.tokenForCertification = data.tokenForCertification;
 				console.log("gBakeryLoginInfo.id: " + gBakeryLoginInfo.id);
 				console.log("gBakeryLoginInfo.tokenForCertification: " + gBakeryLoginInfo.tokenForCertification);
-				$location.path("/bakeryMenu");
+				$location.path("/menuForBakery");
 			}else{
 				// ログイン失敗の場合
 				console.log("★ログイン失敗");
@@ -639,10 +616,6 @@ hotpansServices.controller("InputCustomerLoginInfoController", function ($scope,
 	$scope.login = function(){
 		console.log("★id: " + $scope.login.id);
 		console.log("★password: " + $scope.login.password);
-
-//		var fd = new FormData();
-//		fd.append('id', $scope.login.id);
-//		fd.append('password', $scope.login.password);
 
 		var loginData = {};
 		loginData.loginId = $scope.login.id;
@@ -670,7 +643,7 @@ hotpansServices.controller("InputCustomerLoginInfoController", function ($scope,
 				gCustomerLoginInfo.tokenForCertification = data.tokenForCertification;
 				console.log("gCustomerLoginInfo.id: " + gCustomerLoginInfo.id);
 				console.log("gCustomerLoginInfo.tokenForCertification: " + gCustomerLoginInfo.tokenForCertification);
-				$location.path("/customerMenu");
+				$location.path("/menuForCustomer");
 			}else{
 				// ログイン失敗の場合
 				console.log("★ログイン失敗");
@@ -694,10 +667,6 @@ hotpansServices.controller("InputAdministratorLoginInfoController", function ($s
 		console.log("★id: " + $scope.login.id);
 		console.log("★password: " + $scope.login.password);
 
-//		var fd = new FormData();
-//		fd.append('id', $scope.login.id);
-//		fd.append('password', $scope.login.password);
-
 		var loginData = {};
 		loginData.loginId = $scope.login.id;
 		loginData.loginPassword = $scope.login.password;
@@ -719,12 +688,12 @@ hotpansServices.controller("InputAdministratorLoginInfoController", function ($s
 
 			// ログイン成功の場合
 			if(data.tokenForCertification != 'NG'){
-				console.log("★ログイン成功");
+				console.log("★管理者さんとしてログイン成功");
 				gAdministratorLoginInfo.id = data.id;	// ログインIDではなく、主キー（整数）を格納
 				gAdministratorLoginInfo.tokenForCertification = data.tokenForCertification;
 				console.log("administratorLoginInfo.id: " + gAdministratorLoginInfo.id);
 				console.log("administratorLoginInfo.tokenForCertification: " + gAdministratorLoginInfo.tokenForCertification);
-				$location.path("/administratorMenu");
+				$location.path("/menuForAdministrator");
 			}else{
 				// ログイン失敗の場合
 				console.log("★ログイン失敗");
@@ -742,27 +711,14 @@ hotpansServices.controller("InputAdministratorLoginInfoController", function ($s
 	}
 });
 
-function goStartPageIfNotLogin($location, $http){
-	//$location.path("/login");
-	console.log("★goStartPageIfNotLogin");
+function goStartPageIfNotBakeryLogin($location, $http, $scope){
+	console.log("★goStartPageIfNotBakeryLogin");
 
-	//var loginStatus = false;
 	var bakery = {};
 	bakery.id = gBakeryLoginInfo.id;
 	bakery.tokenForCertification = gBakeryLoginInfo.tokenForCertification;
 	console.log("bakery.id = " + bakery.id);
 	console.log("bakery.tokenForCertification = " + bakery.tokenForCertification);
-
-	var customer = {};
-	customer.id = gCustomerLoginInfo.id;
-	customer.tokenForCertification = gCustomerLoginInfo.tokenForCertification;
-	console.log("customer.id = " + customer.id);
-	console.log("customer.tokenForCertification = " + customer.tokenForCertification);
-
-	//var logined = false;
-
-	var bakeryData = false;
-	var customerData = false;
 
 	$http({
 		method : 'POST',
@@ -771,60 +727,86 @@ function goStartPageIfNotLogin($location, $http){
 		data : bakery
 	}).success(function(data) {
 		//成功
-		console.log("★ログインステータス取得成功");
-		console.log("data:" + data);
+		console.log("★パン屋さんログインステータス取得成功");
+		console.log("★パン屋さんのログインステータス:" + data);
 
-		//logined = true;
-
-		/*
 		// 未ログインの場合、ログイン画面へ
 		if(data == false){
-			$location.path("/login");
+			$location.path("/loginForBakery");
 			//$route.reload();
 		}
-		*/
-
-		bakeryData = true;
-
 
 	}).error(function(data) {
 		//失敗
-		console.log("★ログインステータス取得失敗");
+		console.log("★パン屋さんログインステータス取得失敗");
 		console.log(data);
 		alert("サーバとの通信に失敗しました。ログインステータスが取得できません。");
 	});
+
+}
+
+function goStartPageIfNotCustomerLogin($location, $http, $scope){
+	console.log("★goStartPageIfNotCustomerLogin");
+
+	var customer = {};
+	customer.id = gCustomerLoginInfo.id;
+	customer.tokenForCertification = gCustomerLoginInfo.tokenForCertification;
+	console.log("customer.id = " + customer.id);
+	console.log("customer.tokenForCertification = " + customer.tokenForCertification);
 
 	$http({
 		method : 'POST',
 		url : 'http://localhost:8080/api/login/customer/isLogined',
-		//url : 'https://makopi23-hotpans-test.herokuapp.com/api/login/bakery/isLogined',
+		//url : 'https://makopi23-hotpans-test.herokuapp.com/api/login/customer/isLogined',
 		data : customer
 	}).success(function(data) {
 		//成功
-		console.log("★ログインステータス取得成功");
-		console.log("data:" + data);
+		console.log("★パン屋のお客さんログインステータス取得成功");
+		console.log("★パン屋さんのお客さんログインステータス:" + data);
 
-		//logined = true;
-
-		/*
 		// 未ログインの場合、ログイン画面へ
 		if(data == false){
-			$location.path("/login");
-			//$route.reload();
+			$location.path("/customerForLogin");
 		}
-		*/
-		customerData = true;
 
 	}).error(function(data) {
 		//失敗
-		console.log("★ログインステータス取得失敗");
+		console.log("★パン屋のお客さんログインステータス取得失敗");
 		console.log(data);
 		alert("サーバとの通信に失敗しました。ログインステータスが取得できません。");
 	});
 
-	if(bakeryData == false && customerData == false){
-		$location.path("/");
-		//$route.reload();
-	}
+}
+
+function goStartPageIfNotAdministratorLogin($location, $http, $scope){
+	console.log("★goStartPageIfNotAdministratorLogin");
+
+	var administrator = {};
+	administrator.id = gAdministratorLoginInfo.id;
+	administrator.tokenForCertification = gAdministratorLoginInfo.tokenForCertification;
+	console.log("administrator.id = " + administrator.id);
+	console.log("administrator.tokenForCertification = " + administrator.tokenForCertification);
+
+	$http({
+		method : 'POST',
+		url : 'http://localhost:8080/api/login/administrator/isLogined',
+		//url : 'https://makopi23-hotpans-test.herokuapp.com/api/login/administrator/isLogined',
+		data : administrator
+	}).success(function(data) {
+		//成功
+		console.log("★管理者さんログインステータス取得成功");
+		console.log("★管理者さんログインステータス:" + data);
+
+		// 未ログインの場合、ログイン画面へ
+		if(data == false){
+			$location.path("/administratorForLogin");
+		}
+
+	}).error(function(data) {
+		//失敗
+		console.log("★管理者さんログインステータス取得失敗");
+		console.log(data);
+		alert("サーバとの通信に失敗しました。ログインステータスが取得できません。");
+	});
 
 }
