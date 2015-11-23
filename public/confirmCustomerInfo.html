@@ -1,0 +1,67 @@
+<!-- <div align="center"> -->
+<div  class="container">
+<strong>入力情報の確認</strong>
+
+<!-- <table border="1"> -->
+<table class="table table-bordered table-hover table-striped">
+  <tr class="info">
+    <th>#</th>
+    <th>項目</th>
+    <th>値</th>
+  </tr>
+  <tr>
+    <th>1</th>
+    <th  nowrap>名前</th>
+    <td>{{customer.name}}</td>
+  </tr>
+  <tr>
+    <th>2</th>
+    <th  nowrap>メールアドレス</th>
+    <td>{{customer.mailAddress}}</td>
+  </tr>
+<!--   <tr> -->
+<!--     <th>3</th> -->
+<!--     <th  nowrap>住所</th> -->
+<!--     <td>{{customer.address}}</td> -->
+<!--   </tr> -->
+<!--   <tr> -->
+<!--     <th>4</th> -->
+<!--     <th  nowrap>電話番号１</th> -->
+<!--     <td>{{customer.phoneNumber1}}</td> -->
+<!--   </tr> -->
+<!--   <tr> -->
+<!--     <th>5</th> -->
+<!--     <th  nowrap>電話番号２</th> -->
+<!--     <td>{{customer.phoneNumber2}}</td> -->
+<!--   </tr> -->
+<!--   <tr> -->
+<!--     <th>6</th> -->
+<!--     <th  nowrap>紹介文</th> -->
+<!--     <td>{{customer.introduction}}</td> -->
+<!--   </tr> -->
+  <tr>
+    <th>7</th>
+    <th  nowrap>ログインID</th>
+    <td>{{customer.loginId}}</td>
+  </tr>
+  <tr>
+    <th>8</th>
+    <th  nowrap>ログインパスワード</th>
+    <td>{{customer.loginPassword}}</td>
+  </tr>
+<!--   <tr> -->
+<!--     <th>9</th> -->
+<!--     <th  nowrap>画像</th> -->
+<!--     <td><img ng-if="imageFileSrc" ng-src="{{imageFileSrc}}"/></td> -->
+<!--   </tr> -->
+</table><br>
+上記で登録します。よろしいですか？<br>
+<!-- {{customer.introduction}} -->
+<!-- <form name="registedCustomerForm" ng-controller="RegistedCustomerInfoController" > -->
+<!-- <form name="registedCustomerForm"> -->
+<button ng-click="registCustomer(customer)">登録</button>
+<!-- <button onclick="location.href='#/'">戻る</button> -->
+<button ng-click="back(customer)">戻る</button>
+<!-- </form> -->
+<!-- </form> -->
+</div>
