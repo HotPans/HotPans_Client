@@ -127,8 +127,17 @@ function hotpansRouteConfig($stateProvider){
 		url: "/menuForAdministrator",
 		controller: MenuForAdministratorController,
 		templateUrl: "menuForAdministrator.html"
-	});
-
+	}).
+    state('GoogleLoginSuccess', {
+    	url: "/access_token=:accessToken",
+    	controller: GoogleLoginSuccessController,
+    	templateUrl: "access_ok.html"
+    }).
+    state('GoogleLoginFail', {
+    	url: "/error=:errorToken",
+    	controller: GoogleLoginFailController,
+    	templateUrl: "access_ng.html"
+    });
 }
 
 function defaultRouteConfig($urlRouterProvider){
@@ -140,7 +149,7 @@ hotpansServices.config(defaultRouteConfig);
 
 function StartController($scope, $location, $http) {
 	console.log("★StartController");
-	//goStartPageIfNotBakeryLogin($location, $http);
+	//goLoginPageIfNotBakeryLogin($location, $http);
 	initVariable();
 }
 
@@ -160,28 +169,28 @@ function RegistedBreadInfoController($scope, $location) {
 }
 
 function LandingPageForBakeryController($scope, $location, $http) {
-	//goStartPageIfNotBakeryLogin($location, $http);
+	//goLoginPageIfNotBakeryLogin($location, $http);
 }
 
 function LandingPageForCustomerController($scope, $location, $http) {
-	//goStartPageIfNotBakeryLogin($location, $http);
+	//goLoginPageIfNotBakeryLogin($location, $http);
 }
 
 function RegistedMailAddressController($scope, $location, $http) {
-	//goStartPageIfNotBakeryLogin($location, $http);
+	//goLoginPageIfNotBakeryLogin($location, $http);
 	$scope.mailAddress = mailAddress;
 }
 
 function RegistedBakeryInfoController($scope, $location) {
-	goStartPageIfNotBakeryLogin($location, $http);
+	goLoginPageIfNotBakeryLogin($location, $http);
 }
 
 function RegistedCustomerInfoController($scope, $location) {
-	goStartPageIfNotCustomerLogin($location, $http);
+	goLoginPageIfNotCustomerLogin($location, $http);
 }
 
 function ConfirmBakeryInfoController($scope, $http, $location) {
-	goStartPageIfNotBakeryLogin($location, $http);
+	goLoginPageIfNotBakeryLogin($location, $http);
 	$scope.bakery = gBakery;
 	$scope.imageFileSrc = gImageFileSrc;
 
@@ -241,7 +250,7 @@ function ConfirmBakeryInfoController($scope, $http, $location) {
 }
 
 function ConfirmCustomerInfoController($scope, $http, $location) {
-	goStartPageIfNotCustomerLogin($location, $http);
+	goLoginPageIfNotCustomerLogin($location, $http);
 	$scope.customer = gCustomer;
 
 	$scope.registCustomer = function(customer){
@@ -286,7 +295,7 @@ function ConfirmCustomerInfoController($scope, $http, $location) {
 }
 
 function RegistBakeryInfoController($scope, $location) {
-	//goStartPageIfNotBakeryLogin($location, $http);
+	//goLoginPageIfNotBakeryLogin($location, $http);
 	$scope.bakery = gBakery;
 }
 
@@ -296,7 +305,7 @@ function RegistCustomerInfoController($scope, $location, $http) {
 }
 
 function ShowRegistInfoController($scope, $http, $location) {
-	goStartPageIfNotAdministratorLogin($location, $http)
+	goLoginPageIfNotAdministratorLogin($location, $http)
 
 	initVariable();	// 初期化
 	$http.get('http://localhost:8080/api/bakerys').
@@ -320,16 +329,20 @@ function ShowRegistInfoController($scope, $http, $location) {
 
 }
 
-function MenuForBakeryController($location, $http) {
-	goStartPageIfNotBakeryLogin($location, $http);
+function MenuForBakeryController($location, $http, $scope) {
+	//$scope.bakery.name = gBakeryLoginInfo.name;
+	goLoginPageIfNotBakeryLogin($location, $http);
+	$scope.bakery = gBakeryLoginInfo;
 }
 
-function MenuForCustomerController($location, $http) {
-	goStartPageIfNotCustomerLogin($location, $http);
+function MenuForCustomerController($location, $http, $scope) {
+	goLoginPageIfNotCustomerLogin($location, $http);
+	$scope.customer = gCustomerLoginInfo;
 }
 
-function MenuForAdministratorController($location, $http) {
-	goStartPageIfNotAdministratorLogin($location, $http);
+function MenuForAdministratorController($location, $http, $scope) {
+	goLoginPageIfNotAdministratorLogin($location, $http);
+	$scope.administrator = gAdministratorLoginInfo;
 }
 
 hotpansServices.controller("RegistMailAddressController", function ($scope, $http, $location){
@@ -471,14 +484,14 @@ hotpansServices.directive("fileModel", ["$parse", function ($parse) {
 }]);
 
 function RegistBreadInfoController($scope, $location, $http) {
-	goStartPageIfNotBakeryLogin($location, $http);
+	goLoginPageIfNotBakeryLogin($location, $http);
 	$scope.bread = gBread;
 	$scope.bread.bakeryId = gBakeryLoginInfo.id;
 }
 
 
 hotpansServices.controller("InputBreadInfoController", function ($scope, $http, $location){
-	goStartPageIfNotBakeryLogin($location, $http);
+	goLoginPageIfNotBakeryLogin($location, $http);
 	var bread = {};
 
 	$scope.confirmBreadInfo = function(){
@@ -506,7 +519,7 @@ hotpansServices.controller("InputBreadInfoController", function ($scope, $http, 
 });
 
 function ConfirmBreadInfoController($scope, $http, $location) {
-	goStartPageIfNotBakeryLogin($location, $http);
+	goLoginPageIfNotBakeryLogin($location, $http);
 	$scope.bread = gBread;
 	$scope.imageFileSrc = gImageFileSrc;
 
@@ -591,7 +604,9 @@ hotpansServices.controller("InputBakeryLoginInfoController", function ($scope, $
 				console.log("★パン屋さんログイン成功");
 				gBakeryLoginInfo.id = data.id;	// ログインIDではなく、主キー（整数）を格納
 				gBakeryLoginInfo.tokenForCertification = data.tokenForCertification;
+				gBakeryLoginInfo.name = data.name;
 				console.log("gBakeryLoginInfo.id: " + gBakeryLoginInfo.id);
+				console.log("gBakeryLoginInfo.name: " + gBakeryLoginInfo.name);
 				console.log("gBakeryLoginInfo.tokenForCertification: " + gBakeryLoginInfo.tokenForCertification);
 				$location.path("/menuForBakery");
 			}else{
@@ -640,6 +655,7 @@ hotpansServices.controller("InputCustomerLoginInfoController", function ($scope,
 			if(data.tokenForCertification != 'NG'){
 				console.log("★ログイン成功");
 				gCustomerLoginInfo.id = data.id;	// ログインIDではなく、主キー（整数）を格納
+				gCustomerLoginInfo.name = data.name;
 				gCustomerLoginInfo.tokenForCertification = data.tokenForCertification;
 				console.log("gCustomerLoginInfo.id: " + gCustomerLoginInfo.id);
 				console.log("gCustomerLoginInfo.tokenForCertification: " + gCustomerLoginInfo.tokenForCertification);
@@ -690,6 +706,7 @@ hotpansServices.controller("InputAdministratorLoginInfoController", function ($s
 			if(data.tokenForCertification != 'NG'){
 				console.log("★管理者さんとしてログイン成功");
 				gAdministratorLoginInfo.id = data.id;	// ログインIDではなく、主キー（整数）を格納
+				gAdministratorLoginInfo.name = data.name;
 				gAdministratorLoginInfo.tokenForCertification = data.tokenForCertification;
 				console.log("administratorLoginInfo.id: " + gAdministratorLoginInfo.id);
 				console.log("administratorLoginInfo.tokenForCertification: " + gAdministratorLoginInfo.tokenForCertification);
@@ -711,8 +728,26 @@ hotpansServices.controller("InputAdministratorLoginInfoController", function ($s
 	}
 });
 
-function goStartPageIfNotBakeryLogin($location, $http, $scope){
-	console.log("★goStartPageIfNotBakeryLogin");
+hotpansServices.controller("AdministratorLoginForGoogleAccountController", function ($scope, $http, $location){
+
+	$scope.loginForGoogleAccount = function(){
+		console.log("★Google Login");
+
+        var client_id = "789086735509-lhn2hfpm3sef9pa7ov3gvemdv13a46r1.apps.googleusercontent.com";
+        var scope = "email";
+        var redirect_uri = "http://localhost:18080/HotPans_Client/public";
+        var response_type = "token";
+        var url="https://accounts.google.com/o/oauth2/auth?scope=" + scope
+        	+ "&client_id=" + client_id
+        	+ "&redirect_uri=" + redirect_uri
+        	+ "&response_type=" + response_type;
+        window.location.replace(url);
+	}
+
+});
+
+function goLoginPageIfNotBakeryLogin($location, $http, $scope){
+	console.log("★goLoginPageIfNotBakeryLogin");
 
 	var bakery = {};
 	bakery.id = gBakeryLoginInfo.id;
@@ -745,8 +780,8 @@ function goStartPageIfNotBakeryLogin($location, $http, $scope){
 
 }
 
-function goStartPageIfNotCustomerLogin($location, $http, $scope){
-	console.log("★goStartPageIfNotCustomerLogin");
+function goLoginPageIfNotCustomerLogin($location, $http, $scope){
+	console.log("★goLoginPageIfNotCustomerLogin");
 
 	var customer = {};
 	customer.id = gCustomerLoginInfo.id;
@@ -766,7 +801,7 @@ function goStartPageIfNotCustomerLogin($location, $http, $scope){
 
 		// 未ログインの場合、ログイン画面へ
 		if(data == false){
-			$location.path("/customerForLogin");
+			$location.path("/loginForCustomer");
 		}
 
 	}).error(function(data) {
@@ -778,8 +813,8 @@ function goStartPageIfNotCustomerLogin($location, $http, $scope){
 
 }
 
-function goStartPageIfNotAdministratorLogin($location, $http, $scope){
-	console.log("★goStartPageIfNotAdministratorLogin");
+function goLoginPageIfNotAdministratorLogin($location, $http, $scope){
+	console.log("★goLoginPageIfNotAdministratorLogin");
 
 	var administrator = {};
 	administrator.id = gAdministratorLoginInfo.id;
@@ -799,7 +834,7 @@ function goStartPageIfNotAdministratorLogin($location, $http, $scope){
 
 		// 未ログインの場合、ログイン画面へ
 		if(data == false){
-			$location.path("/administratorForLogin");
+			$location.path("/loginForAdministrator");
 		}
 
 	}).error(function(data) {
@@ -809,4 +844,75 @@ function goStartPageIfNotAdministratorLogin($location, $http, $scope){
 		alert("サーバとの通信に失敗しました。ログインステータスが取得できません。");
 	});
 
+}
+
+function GoogleLoginSuccessController($scope, $rootScope, $location, $http) {
+	console.log("★GoogleLoginSuccessController")
+	console.log("$location.path: " + $location.path());
+	console.log("$location.absUrl(): " + $location.absUrl());
+
+	var hash = $location.path().substr(1);
+	console.log("hash: " + hash);
+
+	var splitted = hash.split('&');
+	var params = {};
+
+	for (var i = 0; i < splitted.length; i++) {
+	  var param  = splitted[i].split('=');
+	  var key    = param[0];
+	  var value  = param[1];
+	  console.log("key: " + key + ", value: " + value);
+	  params[key] = value;
+	  $rootScope.accesstoken = params;
+	}
+
+	window.localStorage.setItem("access_token", params["access_token"]);
+	console.log("localStorage: " + window.localStorage.getItem("access_token"));
+	$rootScope.accesstokenstr = $rootScope.accesstoken["access_token"];
+
+	$http.get('https://www.googleapis.com/oauth2/v3/userinfo?access_token=' + params["access_token"]).
+	success(function(data, status, headers, config) {
+		console.log("★あなたのメールアドレス：" + data.email);
+
+		var administrator = {};
+		administrator.mailAddress = data.email;
+
+		$http({
+			method : 'POST',
+			url : 'http://localhost:8080/api/login/administrator/GoogleAccount',
+			//url : 'https://makopi23-hotpans-test.herokuapp.com/api/login/administrator/GoogleAccount',
+			data : administrator
+		}).success(function(data) {
+			//成功
+			console.log("★管理者さんログインステータス取得成功");
+			console.log("★data=");
+			console.log(data);
+
+			// Googleメールアドレスが未登録の場合、ログインを認めない
+			if(data == null){
+				$location.path("/loginForAdministrator");
+			}else{
+				// Googleメールアドレスが登録済の場合、ログインを認める
+				gAdministratorLoginInfo.id = data.id;	// ログインIDではなく、主キー（整数）を格納
+				gAdministratorLoginInfo.tokenForCertification = data.tokenForCertification;
+				gAdministratorLoginInfo.name = data.name;
+				$location.path("/menuForAdministrator");
+			}
+
+		}).error(function(data) {
+			//失敗
+			console.log("★管理者さんログインステータス取得失敗");
+			console.log(data);
+			alert("サーバとの通信に失敗しました。ログインステータスが取得できません。");
+		});
+
+	});
+
+
+}
+
+function GoogleLoginFailController($scope, $rootScope, $location, $http) {
+	console.log("★LoginFailController")
+	console.log("$location.path: " + $location.path());
+	console.log("$location.absUrl(): " + $location.absUrl());
 }

@@ -13,27 +13,18 @@
 <td><input type="text" ng-model="login.password" name="password" required /></td>
 </tr>
 </table>
-
+<div align="center">HotPansの方は、IDとパスワードに両方ともGoogleメールアドレスを入力することでログインできます。</div>
 <div align="center">
 <button ng-disabled="!loginForm.$valid" ng-click="login()">認証</button>
 </div>
 <div align="center"><font color="red">{{login.message}}</font></div>
 </form>
+<hr>
+<div align="center">HotPansの方は、Googleアカウントでもログインすることができます。(OAuth2.0)</div>
+<form name="loginForGoogleAccountForm" ng-controller="AdministratorLoginForGoogleAccountController">
+<div align="center">
+<button ng-click="loginForGoogleAccount()">Googleアカウントでログイン</button>
+</div>
+</form>
 
-<!-- <hr /> -->
-<!-- <div align="center"><font color="blue">なお、テスト用ユーザとして以下を用意しています。</font></div> -->
-<!-- <table align="center" class="table table-hover table-striped table-bordered"> -->
-<!-- <tr> -->
-<!-- <th>ID</th> -->
-<!-- <th>パスワード</th> -->
-<!-- </tr> -->
-<!-- <tr> -->
-<!-- <td>administrator1</td> -->
-<!-- <td>password1</td> -->
-<!-- </tr> -->
-<!-- <tr> -->
-<!-- <td>administrator2</td> -->
-<!-- <td>password2</td> -->
-<!-- </tr> -->
-<!-- </table> -->
 </div>
