@@ -181,16 +181,16 @@ function RegistedMailAddressController($scope, $location, $http) {
 	$scope.mailAddress = mailAddress;
 }
 
-function RegistedBakeryInfoController($scope, $location) {
-	goLoginPageIfNotBakeryLogin($location, $http);
+function RegistedBakeryInfoController($scope, $location, $http) {
+	//goLoginPageIfNotBakeryLogin($location, $http);
 }
 
-function RegistedCustomerInfoController($scope, $location) {
+function RegistedCustomerInfoController($scope, $location, $http) {
 	goLoginPageIfNotCustomerLogin($location, $http);
 }
 
 function ConfirmBakeryInfoController($scope, $http, $location) {
-	goLoginPageIfNotBakeryLogin($location, $http);
+	//goLoginPageIfNotBakeryLogin($location, $http);
 	$scope.bakery = gBakery;
 	$scope.imageFileSrc = gImageFileSrc;
 
@@ -736,6 +736,7 @@ hotpansServices.controller("AdministratorLoginForGoogleAccountController", funct
         var client_id = "789086735509-lhn2hfpm3sef9pa7ov3gvemdv13a46r1.apps.googleusercontent.com";
         var scope = "email";
         var redirect_uri = "http://localhost:18080/HotPans_Client/public";
+        //var redirect_uri = "https://makopi23-hotpans-test.herokuapp.com";
         var response_type = "token";
         var url="https://accounts.google.com/o/oauth2/auth?scope=" + scope
         	+ "&client_id=" + client_id
