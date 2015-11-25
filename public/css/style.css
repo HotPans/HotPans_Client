@@ -3,3 +3,6 @@ img {
     height:auto;
 }
 
+#border-thick {
+  border-bottom-width : 10pt;
+}

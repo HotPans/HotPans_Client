@@ -1,0 +1,56 @@
+<div class="container">
+<form name="registCustomerForm" ng-controller="InputCustomerInfoController">
+<div align="center">ユーザ情報を入力してください。</div><br>
+
+<!-- <table align="center"> -->
+<table class="table table-hover table-striped">
+<tr>
+<th align="right" nowrap>名前　</th>
+<td><input type="text" ng-model="customer.name" name="name" required /></td>
+</tr>
+<tr>
+<th align="right" nowrap>メールアドレス <font color="red">(@必須)</font>　</th>
+<td><input type="email" ng-model="customer.mailAddress" name="mailAddress" required /></td>
+</tr>
+<!-- <tr> -->
+<!-- <th align="right" nowrap>住所　</th> -->
+<!-- <td><input type="text" ng-model="customer.address" name="address" required /></td> -->
+<!-- </tr> -->
+<!-- <tr> -->
+<!-- <th align="right" nowrap>電話番号１　</th> -->
+<!-- <td><input type="tel" ng-model="customer.phoneNumber1" name="phoneNumber1" required /></td> -->
+<!-- </tr> -->
+<!-- <tr> -->
+<!-- <th align="right" nowrap>電話番号２　</th> -->
+<!-- <td><input type="tel" ng-model="customer.phoneNumber2" name="phoneNumber2" /></td> -->
+<!-- </tr> -->
+<!-- <tr> -->
+<!-- <th align="right" nowrap>紹介文　</th> -->
+<!-- <td><input type="text" ng-model="customer.introduction" name="introduction" required /></td> -->
+<!-- </tr> -->
+<tr>
+<th align="right" nowrap>ログインID　</th>
+<td><input type="text" ng-model="customer.loginId" name="loginId" required /></td>
+</tr>
+<tr>
+<th align="right" nowrap>ログインパスワード　</th>
+<td><input type="text" ng-model="customer.loginPassword" name="loginPassword" required /></td>
+</tr>
+<tr>
+<th align="right" nowrap>ログインパスワード(再入力)　</th>
+<td><input type="text" ng-model="customer.loginPassword2" name="loginPassword2" required /></td>
+</tr>
+<!-- <tr> -->
+<!-- <th align="right" nowrap>画像　</th> -->
+<!-- <td><input type="file" name="image" file-model="imageFile" /><br> -->
+<!-- <img ng-if="imageFileSrc" ng-src="{{imageFileSrc}}" /></td> -->
+<!-- </tr> -->
+</table>
+<!-- {{imageFileSrc}} -->
+<br>
+<div align="center">
+<button ng-disabled="!registCustomerForm.$valid" ng-click="confirmCustomerInfo()">登録</button>
+</div>
+<div align="center"><font color="red">{{customer.message}}</font></div>
+</form>
+</div>

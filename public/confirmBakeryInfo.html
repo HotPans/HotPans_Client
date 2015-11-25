@@ -1,11 +1,13 @@
-<div align="center">
+<!-- <div align="center"> -->
+<div  class="container">
 <strong>入力情報の確認</strong>
 
-<table border="1">
-  <tr>
-    <th bgcolor="yellow">#</th>
-    <th bgcolor="yellow">項目</th>
-    <th bgcolor="yellow" width="200">値</th>
+<!-- <table border="1"> -->
+<table class="table table-bordered table-hover table-striped">
+  <tr class="info">
+    <th>#</th>
+    <th>項目</th>
+    <th>値</th>
   </tr>
   <tr>
     <th>1</th>
@@ -39,6 +41,16 @@
   </tr>
   <tr>
     <th>7</th>
+    <th  nowrap>ログインID</th>
+    <td>{{bakery.loginId}}</td>
+  </tr>
+  <tr>
+    <th>8</th>
+    <th  nowrap>ログインパスワード</th>
+    <td>{{bakery.loginPassword}}</td>
+  </tr>
+  <tr>
+    <th>9</th>
     <th  nowrap>画像</th>
     <td><img ng-if="imageFileSrc" ng-src="{{imageFileSrc}}"/></td>
   </tr>

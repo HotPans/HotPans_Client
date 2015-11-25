@@ -1,14 +1,15 @@
-
-<form name="registBakeryForm" ng-controller="RegistBakeryInfoController">
+<div class="container">
+<form name="registBakeryForm" ng-controller="InputBakeryInfoController">
 <div align="center">お店の情報を入力してください。</div><br>
 
-<table align="center">
+<!-- <table align="center"> -->
+<table class="table table-hover table-striped">
 <tr>
 <th align="right" nowrap>お店の名前　</th>
 <td><input type="text" ng-model="bakery.name" name="name" required /></td>
 </tr>
 <tr>
-<th align="right" nowrap>メールアドレス　</th>
+<th align="right" nowrap>メールアドレス <font color="red">(@必須)</font>　</th>
 <td><input type="email" ng-model="bakery.mailAddress" name="mailAddress" required /></td>
 </tr>
 <tr>
@@ -28,6 +29,18 @@
 <td><input type="text" ng-model="bakery.introduction" name="introduction" required /></td>
 </tr>
 <tr>
+<th align="right" nowrap>ログインID　</th>
+<td><input type="text" ng-model="bakery.loginId" name="loginId" required /></td>
+</tr>
+<tr>
+<th align="right" nowrap>ログインパスワード　</th>
+<td><input type="text" ng-model="bakery.loginPassword" name="loginPassword" required /></td>
+</tr>
+<tr>
+<th align="right" nowrap>ログインパスワード(再入力)　</th>
+<td><input type="text" ng-model="bakery.loginPassword2" name="loginPassword2" required /></td>
+</tr>
+<tr>
 <th align="right" nowrap>画像　</th>
 <td><input type="file" name="image" file-model="imageFile" /><br>
 <img ng-if="imageFileSrc" ng-src="{{imageFileSrc}}" /></td>
@@ -38,4 +51,6 @@
 <div align="center">
 <button ng-disabled="!registBakeryForm.$valid" ng-click="confirmBakeryInfo()">登録</button>
 </div>
+<div align="center"><font color="red">{{bakery.message}}</font></div>
 </form>
+</div>
